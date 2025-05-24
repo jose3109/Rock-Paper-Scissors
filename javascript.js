@@ -8,19 +8,14 @@ function getComputerChoice() {
         return ("rock"); 
     } else if (number <= 66) {
         return ("paper");
-    } else if (number <= 100 || number > 100 ) {
+    } else {
         return ("scissors"); 
     }
 }
 
-function getHumanChoice() { 
-     let choice = prompt("Choose Rock, Paper, or Scissors").toLowerCase();
-     return(choice);
-
-}
-
 function playRound (humanChoice, computerChoice) {
         if (humanChoice === computerChoice) {
+
             alert("It's a tie");
         } else if (humanChoice === "rock" && computerChoice === "scissors" ) {
             alert("You Win! Rock beats scissors")
@@ -41,35 +36,55 @@ function playRound (humanChoice, computerChoice) {
             alert("You Lost! Paper beat rock")
             computerScore++;
         }
+    
 }
 
 
+ const btn = document.querySelectorAll("button");
+        btn.forEach((button) => { 
+            button.addEventListener("click", () => {
+                const choice = button.id;
+            playRound(choice, getComputerChoice());
+    scoreSet();
+            } ); 
 
+         });
 
-function playGame () {
-    humanScore;
-    computerScore;
-    playRound(getHumanChoice(), getComputerChoice());
-
-    playRound(getHumanChoice(), getComputerChoice());
-
-
-    playRound(getHumanChoice(), getComputerChoice());
-
-    playRound(getHumanChoice(), getComputerChoice());
-
-
-    playRound(getHumanChoice(), getComputerChoice());
-
-    if (humanScore === 5 || humanScore > computerScore ) {
-        alert("YOU WON!!")
+let round = 1;
+   
+function scoreSet() {
+            const score = document.querySelector("div");
+    score.textContent = `Score: ${humanScore} Lost: ${computerScore} Round: ${round}`;
+    if (humanScore === 5) {
+        setTimeout(() => {
+       if (confirm("You Won this ROUND!! Next round?")) {
+        newRound(score);
     } else {
-        alert("You Lost")
+        resetGame(score);
+    } 
+}, 100);
+    }   else if (computerScore === 5) { 
+        setTimeout(() => {
+       if ( confirm("You Lost the computer beat you start a new round?") ) {
+        newRound(score);
+       } else {
+        resetGame(score);
+       }
+    }, 100);
     }
- 
 }
 
 
-playGame();
+ function newRound (score) {
+  score.textContent = `Score: ${0} Lost: ${0} Round: ${++round}`;
+             humanScore = 0;
+           computerScore = 0;
+ }
 
-console.log(humanScore);
+function resetGame (score) {
+alert("OKay GOODBYE")
+       score.textContent = `Score: ${0} Lost: ${0} Round: ${1}`;
+           humanScore = 0;
+           computerScore = 0;
+           round = 1;
+} 
